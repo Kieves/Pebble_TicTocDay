@@ -41,7 +41,7 @@ Pebble.on('message', function(event) {
   var message = event.data;
 
   if (message.fetch) {
-    console.log("checking message api: " + message.apikey)
+    //console.log("checking message api: " + message.apikey)
     navigator.geolocation.getCurrentPosition(function(pos) {
       var url = 'http://api.openweathermap.org/data/2.5/weather' +
               '?lat=' + pos.coords.latitude +
@@ -66,7 +66,8 @@ Pebble.on('message', function(event) {
   }
   
    if (event.data.command === 'settings') {
-    restoreSettings();
+     //console.log("checking settings");
+     restoreSettings();
   }
 });
 

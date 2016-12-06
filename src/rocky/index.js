@@ -3,6 +3,8 @@ var rocky = require('rocky');
 var weather;
 var settings = null;
 
+rocky.postMessage({command: 'settings'});
+
 function fractionToRadian(fraction){
   return fraction * 2 * Math.PI;
 }
@@ -69,11 +71,15 @@ function drawDateAndWeather(ctx, d, x, y){
 
 rocky.on('minutechange', function(event){
   rocky.requestDraw();
+  if (settings && !weather) {
+    //console.log("sending key: " + settings.apikey);
+    rocky.postMessage({'fetch':true, 'apikey':settings.apikey});
+  }
 });
 
 rocky.on('hourchange', function(event){
   if (settings) {
-    console.log("sending key: " + settings.apikey);
+    //console.log("sending key: " + settings.apikey);
     rocky.postMessage({'fetch':true, 'apikey':settings.apikey});
   }
 });
@@ -87,8 +93,6 @@ rocky.on('message', function(event){
   }
   settings = event.data;
 });
-
-rocky.postMessage({command: 'settings'});
 
 rocky.on('draw', function(event){
   //Get the CanvasRenderingContext2D object
@@ -107,16 +111,16 @@ rocky.on('draw', function(event){
   var maxLength = (Math.min(w,h) - 34) / 2;
   
   //d.getMinutes()
-  var minuteFraction = (d.getMinutes() / 60);
+  var minuteFraction = (0 / 60);
   var minuteAngle = fractionToRadian(minuteFraction);
-  var hourFraction = (d.getHours() % 12 + minuteFraction) / 12;
+  var hourFraction = (14 % 12 + minuteFraction) / 12;
   var hourAngle = fractionToRadian(hourFraction);
   
   drawHand(ctx, cx, cy, minuteAngle, maxLength, "white");
   drawHand(ctx, cx, cy, hourAngle, maxLength * 0.6, "red");
   drawDot(ctx, cx);
   drawDateAndWeather(ctx, d, cx, h);
-  console.log("Current day: " + d.getDate() + ", current month: " + d.getMonth());
+  //console.log("Current day: " + d.getDate() + ", current month: " + d.getMonth());
 });
 
 

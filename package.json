@@ -1,0 +1,28 @@
+{
+    "author": "Kieves",
+    "dependencies": {},
+    "keywords": [],
+    "name": "tictocday",
+    "pebble": {
+        "capabilities": [
+            "location",
+            "configurable"
+        ],
+        "displayName": "TicTocDay",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "rocky",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt"
+        ],
+        "uuid": "4f1b1907-2b22-4566-bf60-862ad952d1a3",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.0.0"
+}

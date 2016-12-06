@@ -71,9 +71,17 @@ function drawDateAndWeather(ctx, d, x, y){
 
 rocky.on('minutechange', function(event){
   rocky.requestDraw();
+//   if (settings && !weather) {
+//     //console.log("sending key: " + settings.apikey);
+//     rocky.postMessage({'fetch':true, 'apikey':settings.apikey});
+//   }
+});
+
+rocky.on('secondchange', function(event){
   if (settings && !weather) {
     //console.log("sending key: " + settings.apikey);
     rocky.postMessage({'fetch':true, 'apikey':settings.apikey});
+    rocky.requestDraw();
   }
 });
 
@@ -81,6 +89,7 @@ rocky.on('hourchange', function(event){
   if (settings) {
     //console.log("sending key: " + settings.apikey);
     rocky.postMessage({'fetch':true, 'apikey':settings.apikey});
+    rocky.requestDraw();
   }
 });
 
@@ -111,9 +120,9 @@ rocky.on('draw', function(event){
   var maxLength = (Math.min(w,h) - 34) / 2;
   
   //d.getMinutes()
-  var minuteFraction = (0 / 60);
+  var minuteFraction = (d.getMinutes() / 60);
   var minuteAngle = fractionToRadian(minuteFraction);
-  var hourFraction = (14 % 12 + minuteFraction) / 12;
+  var hourFraction = (d.getHours() % 12 + minuteFraction) / 12;
   var hourAngle = fractionToRadian(hourFraction);
   
   drawHand(ctx, cx, cy, minuteAngle, maxLength, "white");

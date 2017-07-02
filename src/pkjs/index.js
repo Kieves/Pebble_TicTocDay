@@ -23,7 +23,6 @@ Pebble.addEventListener('webviewclosed', function(e) {
       settingsFlat[key] = settings[key];
     }
   });
-
   Pebble.postMessage(settingsFlat);
 });
 
@@ -39,9 +38,7 @@ function request(url, type, callback){
 Pebble.on('message', function(event) {
   // Get the message that was passed
   var message = event.data;
-
-  if (message.fetch) {
-    //console.log("checking message api: " + message.apikey)
+  if (message.fetch) {        
     navigator.geolocation.getCurrentPosition(function(pos) {
       var url = 'http://api.openweathermap.org/data/2.5/weather' +
               '?lat=' + pos.coords.latitude +

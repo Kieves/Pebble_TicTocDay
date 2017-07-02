@@ -12,13 +12,19 @@ module.exports = [
     "items": [
       {
         "type": "heading",
-        "defaultValue": "Weather API Key"
+        "defaultValue": "Weather Settings"
       },
       {
         "type": "input",
         "messageKey": "apikey",
         "defaultValue":"",
         "label": "API Key"
+      },
+      {
+        "type": "toggle",
+        "messageKey": "fahren",
+        "defaultValue":false,
+        "label": "Show Fahrenheit"
       },
     ]
   },

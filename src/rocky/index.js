@@ -1,6 +1,7 @@
 var rocky = require('rocky');
 //Global weather variable
 var weather;
+var fahrenheit;
 var settings = null;
 
 rocky.postMessage({command: 'settings'});
@@ -42,8 +43,12 @@ function drawDateAndWeather(ctx, d, x, y){
   ctx.textAlign = 'center';
   ctx.font = '18px bold Gothic';
   if(weather){
+    console.log("checking isFahren: " + fahrenheit);
     weatherOffset = 20;
     var weatherString = weather.celcius + '°';
+    if(fahrenheit){
+      weatherString = weather.fahrenheit + '°';
+    }
     ctx.fillText(weatherString, x+weatherOffset, y-24);
   }
   ctx.font = '14px bold Gothic';
@@ -71,10 +76,10 @@ function drawDateAndWeather(ctx, d, x, y){
 
 rocky.on('minutechange', function(event){
   rocky.requestDraw();
-//   if (settings && !weather) {
-//     //console.log("sending key: " + settings.apikey);
-//     rocky.postMessage({'fetch':true, 'apikey':settings.apikey});
-//   }
+  //if (settings && !weather) {
+    //console.log("sending weather fetch");
+    //rocky.postMessage({'fetch':true, 'apikey':settings.apikey});
+  //}
 });
 
 rocky.on('secondchange', function(event){
@@ -97,9 +102,14 @@ rocky.on('message', function(event){
   var message = event.data;
   if(message.weather){
     weather = message.weather;
-    
-    rocky.requestDraw();
+  } else {
+    if(message.fahren){
+      fahrenheit = message.fahren;
+    }else{
+      fahrenheit = false;
+    }
   }
+  rocky.requestDraw();
   settings = event.data;
 });
 
@@ -129,7 +139,6 @@ rocky.on('draw', function(event){
   drawHand(ctx, cx, cy, hourAngle, maxLength * 0.6, "red");
   drawDot(ctx, cx);
   drawDateAndWeather(ctx, d, cx, h);
-  //console.log("Current day: " + d.getDate() + ", current month: " + d.getMonth());
 });
 
 
